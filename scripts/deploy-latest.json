@@ -1,0 +1,11 @@
+{
+  "contractAddress": "0xeBdE3fE16D05eE4DCA5096F4633FcEE92232877F",
+  "deployTxHash": "0x89b729b6390384418338910fce65f94512464375b22751707400f14cfacb31b1",
+  "deployer": "0x91D6ED5Cc2A1E8daa9Fedd5D1631A41E9749a53b",
+  "treasuryAddress": "0x91D6ED5Cc2A1E8daa9Fedd5D1631A41E9749a53b",
+  "defaultFeeBps": 250,
+  "timestamp": "2026-09-16T02:33:18.346Z",
+  "network": "studionet",
+  "rpcUrl": "https://studio.genlayer.com/api",
+  "explorerUrl": "https://explorer-studio.genlayer.com/address/0xeBdE3fE16D05eE4DCA5096F4633FcEE92232877F"
+}

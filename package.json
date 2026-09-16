@@ -1,0 +1,12 @@
+{
+  "name": "bounties",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Autonomous Verification & Claim Consensus Protocol on GenLayer",
+  "scripts": {
+    "test:contract": "cd scripts && node test-suite.mjs",
+    "deploy:contract": "cd scripts && node deploy.mjs",
+    "web:dev": "cd apps/web && next dev -p 3000",
+    "web:build": "cd apps/web && next build"
+  }
+}
