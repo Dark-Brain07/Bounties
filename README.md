@@ -11,6 +11,7 @@ An on-chain marketplace for verifiable public claims, settled autonomously by **
 | **Contract Address** | `0xeBdE3fE16D05eE4DCA5096F4633FcEE92232877F` |
 | **Explorer Link** | [View on GenLayer Studio](https://explorer-studio.genlayer.com/address/0xeBdE3fE16D05eE4DCA5096F4633FcEE92232877F) |
 | **Live Web DApp** | [bounties-xi.vercel.app](https://bounties-xi.vercel.app) |
+| **Medium Article** | [Introducing Bounties on Medium](https://medium.com/@engraju007/introducing-bounties-autonomous-verification-claim-consensus-on-genlayer-add1e9904ff8?sharedUserId=engraju007) |
 | **GitHub Repository** | [Dark-Brain07/Bounties](https://github.com/Dark-Brain07/Bounties) |
 | **Network** | GenLayer StudioNet (Chain ID: `61999`) |
 | **Deploy Tx Hash** | `0x89b729b6390384418338910fce65f94512464375b22751707400f14cfacb31b1` |
@@ -86,3 +87,13 @@ cd apps/web
 npm run dev
 # Open http://localhost:3000
 ```
+
+---
+
+## 📚 Documentation & Research
+
+* **Medium Article:** [Introducing Bounties: Autonomous Verification & Claim Consensus on GenLayer](https://medium.com/@engraju007/introducing-bounties-autonomous-verification-claim-consensus-on-genlayer-add1e9904ff8?sharedUserId=engraju007)
+* **Architecture Deep-Dive:** [`docs/ARCHITECTURE.md`](./docs/ARCHITECTURE.md)
+* **Deployment Guide:** [`docs/DEPLOYMENT.md`](./docs/DEPLOYMENT.md)
+* **Submissions Guide:** [`all_submissions.md`](./all_submissions.md)
+

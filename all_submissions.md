@@ -73,3 +73,6 @@ Comprehensive architectural documentation and engineering guide detailing:
 
 - **Contract Address:** `0xeBdE3fE16D05eE4DCA5096F4633FcEE92232877F`
 - **Explorer Link:** [View on GenLayer Studio](https://explorer-studio.genlayer.com/address/0xeBdE3fE16D05eE4DCA5096F4633FcEE92232877F)
+- **Medium Article:** [Read on Medium](https://medium.com/@engraju007/introducing-bounties-autonomous-verification-claim-consensus-on-genlayer-add1e9904ff8?sharedUserId=engraju007)
+- **Live Application:** [bounties-xi.vercel.app](https://bounties-xi.vercel.app)
+- **Source Code:** [View on GitHub](https://github.com/Dark-Brain07/Bounties)
