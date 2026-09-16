@@ -21,7 +21,7 @@ export default function BountyDetailPage() {
   const params = useParams();
   const bountyId = Number(params?.id || 0);
 
-  const { account, isConnected, connect } = useWallet();
+  const { account, isConnected, connect, executeContractWrite } = useWallet();
 
   const [bounty, setBounty] = useState<Bounty | null>(null);
   const [attempts, setAttempts] = useState<Attempt[]>([]);
@@ -67,28 +67,14 @@ export default function BountyDetailPage() {
     setActionError(null);
 
     try {
-      if (typeof window !== "undefined" && (window as any).ethereum) {
-        const eth = (window as any).ethereum;
-        const bondWei = BigInt(bounty.required_bond);
+      const bondWei = BigInt(bounty.required_bond);
+      await executeContractWrite("accept_bounty", [bountyId], bondWei);
 
-        await eth.request({
-          method: "eth_sendTransaction",
-          params: [
-            {
-              from: account,
-              to: CONTRACT_ADDRESS,
-              value: "0x" + bondWei.toString(16),
-              data: JSON.stringify({ method: "accept_bounty", args: [bountyId] }),
-            },
-          ],
-        });
-
-        setActionStatus("Attempt created! Refreshing...");
-        setTimeout(() => {
-          loadData();
-          setActionStatus(null);
-        }, 3000);
-      }
+      setActionStatus("Attempt created! Refreshing...");
+      setTimeout(() => {
+        loadData();
+        setActionStatus(null);
+      }, 3000);
     } catch (err: any) {
       setActionError(err?.message || "Failed to accept bounty");
     } finally {
@@ -104,30 +90,20 @@ export default function BountyDetailPage() {
     setActionError(null);
 
     try {
-      if (typeof window !== "undefined" && (window as any).ethereum) {
-        const eth = (window as any).ethereum;
-        await eth.request({
-          method: "eth_sendTransaction",
-          params: [
-            {
-              from: account,
-              to: CONTRACT_ADDRESS,
-              data: JSON.stringify({
-                method: "submit_evidence",
-                args: [bountyId, attemptIndex, evidenceUrl.trim(), evidenceDesc.trim()],
-              }),
-            },
-          ],
-        });
+      await executeContractWrite("submit_evidence", [
+        bountyId,
+        attemptIndex,
+        evidenceUrl.trim(),
+        evidenceDesc.trim(),
+      ]);
 
-        setActionStatus("Evidence submitted successfully!");
-        setEvidenceUrl("");
-        setEvidenceDesc("");
-        setTimeout(() => {
-          loadData();
-          setActionStatus(null);
-        }, 3000);
-      }
+      setActionStatus("Evidence submitted successfully!");
+      setEvidenceUrl("");
+      setEvidenceDesc("");
+      setTimeout(() => {
+        loadData();
+        setActionStatus(null);
+      }, 3000);
     } catch (err: any) {
       setActionError(err?.message || "Failed to submit evidence");
     } finally {
@@ -143,28 +119,13 @@ export default function BountyDetailPage() {
     setActionError(null);
 
     try {
-      if (typeof window !== "undefined" && (window as any).ethereum) {
-        const eth = (window as any).ethereum;
-        await eth.request({
-          method: "eth_sendTransaction",
-          params: [
-            {
-              from: account,
-              to: CONTRACT_ADDRESS,
-              data: JSON.stringify({
-                method: "request_verification",
-                args: [bountyId, attemptIndex],
-              }),
-            },
-          ],
-        });
+      await executeContractWrite("request_verification", [bountyId, attemptIndex]);
 
-        setActionStatus("Validators verifying evidence... Consensus pending!");
-        setTimeout(() => {
-          loadData();
-          setActionStatus(null);
-        }, 5000);
-      }
+      setActionStatus("Validators verifying evidence... Consensus pending!");
+      setTimeout(() => {
+        loadData();
+        setActionStatus(null);
+      }, 4000);
     } catch (err: any) {
       setActionError(err?.message || "Verification request failed");
     } finally {

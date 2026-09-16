@@ -19,7 +19,7 @@ const CATEGORIES = [
 
 export default function CreateBountyPage() {
   const router = useRouter();
-  const { account, isConnected, connect } = useWallet();
+  const { account, isConnected, connect, executeContractWrite } = useWallet();
 
   const [title, setTitle] = useState("");
   const [claimText, setClaimText] = useState("");
@@ -73,38 +73,8 @@ export default function CreateBountyPage() {
         Number(bondWei),
       ];
 
-      // Dispatch transaction via provider or RPC
-      if (typeof window !== "undefined" && (window as any).ethereum) {
-        const eth = (window as any).ethereum;
-        
-        // Encode transaction data using genlayer-js or standard format
-        const txParams = {
-          from: account,
-          to: CONTRACT_ADDRESS,
-          value: "0x" + rewardWei.toString(16),
-          data: {
-            method: "create_bounty",
-            args,
-          },
-        };
-
-        // Call eth_sendTransaction
-        const hash = await eth.request({
-          method: "eth_sendTransaction",
-          params: [
-            {
-              from: account,
-              to: CONTRACT_ADDRESS,
-              value: "0x" + rewardWei.toString(16),
-              data: JSON.stringify({ method: "create_bounty", args }),
-            },
-          ],
-        });
-
-        setTxHash(hash);
-      } else {
-        throw new Error("No Web3 wallet detected. Please connect MetaMask.");
-      }
+      const res = await executeContractWrite("create_bounty", args, rewardWei);
+      setTxHash(res.hash);
 
       setTimeout(() => {
         router.push("/explore");

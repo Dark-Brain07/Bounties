@@ -6,7 +6,7 @@ import { readContractRPC, Attempt, formatGen, truncateAddress, CONTRACT_ADDRESS,
 import { useWallet } from "@/lib/wallet";
 
 export default function DisputesPage() {
-  const { account, isConnected, connect } = useWallet();
+  const { account, isConnected, connect, executeContractWrite } = useWallet();
   const [disputes, setDisputes] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -43,36 +43,21 @@ export default function DisputesPage() {
     setActionMessage("Submitting arbiter resolution to GenLayer Intelligent Contract...");
 
     try {
-      if (typeof window !== "undefined" && (window as any).ethereum) {
-        const eth = (window as any).ethereum;
-        await eth.request({
-          method: "eth_sendTransaction",
-          params: [
-            {
-              from: account,
-              to: CONTRACT_ADDRESS,
-              data: JSON.stringify({
-                method: "resolve_dispute",
-                args: [
-                  selectedDispute.bounty_id,
-                  selectedDispute.index,
-                  verdict,
-                  resolutionNote.trim(),
-                  payoutBps,
-                ],
-              }),
-            },
-          ],
-        });
+      await executeContractWrite("resolve_dispute", [
+        selectedDispute.bounty_id,
+        selectedDispute.index,
+        verdict,
+        resolutionNote.trim(),
+        payoutBps,
+      ]);
 
-        setActionMessage("Dispute resolved! Opened 48-hour appeal window.");
-        setSelectedDispute(null);
-        setResolutionNote("");
-        setTimeout(() => {
-          loadDisputes();
-          setActionMessage(null);
-        }, 3000);
-      }
+      setActionMessage("Dispute resolved! Opened 48-hour appeal window.");
+      setSelectedDispute(null);
+      setResolutionNote("");
+      setTimeout(() => {
+        loadDisputes();
+        setActionMessage(null);
+      }, 3000);
     } catch (err: any) {
       setActionMessage("Error: " + (err?.message || "Failed to resolve dispute"));
     } finally {
