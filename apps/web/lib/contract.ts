@@ -96,39 +96,20 @@ export const ATTEMPT_STATUS_MAP: Record<number, { label: string; color: string }
   9: { label: "PENDING_APPEAL", color: "#8B5CF6" },
 };
 
-// RPC Read Call helper using standard JSON-RPC
-export async function readContractRPC(method: string, args: any[] = []): Promise<any> {
-  const payload = {
-    jsonrpc: "2.0",
-    id: Date.now(),
-    method: "gen_call",
-    params: [
-      {
-        to: CONTRACT_ADDRESS,
-        data: {
-          method,
-          args,
-        },
-      },
-      "latest-nonfinal",
-    ],
-  };
-
-  const res = await fetch(RPC_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload),
-  });
-
-  const json = await res.json();
-  if (json.error) {
-    throw new Error(json.error.message || "Contract call failed");
+// RPC Read Call helper using genlayer-js
+export async function readContractRPC(functionName: string, args: any[] = []): Promise<any> {
+  try {
+    const { createClient, chains } = await import("genlayer-js");
+    const client = createClient({ chain: chains.studionet });
+    return await client.readContract({
+      address: CONTRACT_ADDRESS as `0x${string}`,
+      functionName,
+      args,
+    });
+  } catch (err) {
+    console.error(`Error reading ${functionName}:`, err);
+    throw err;
   }
-
-  // GenLayer gen_call returns the value in execution_result or result
-  const receipt = json.result?.receipt || json.result;
-  const result = receipt?.consensus_data?.leader_receipt?.[0]?.result?.payload ?? receipt?.result ?? json.result;
-  return result;
 }
 
 export function formatGen(weiStr: string | number | bigint): string {
