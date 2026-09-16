@@ -17,6 +17,7 @@ This document contains pre-formatted submission entries for the GenLayer Points 
 ### Links
 - **Contract Address:** `0xeBdE3fE16D05eE4DCA5096F4633FcEE92232877F`
 - **Explorer Link:** [View on GenLayer Studio](https://explorer-studio.genlayer.com/address/0xeBdE3fE16D05eE4DCA5096F4633FcEE92232877F)
+- **Live Application:** [bounties-xi.vercel.app](https://bounties-xi.vercel.app)
 - **Source Code:** [View on GitHub](https://github.com/Dark-Brain07/Bounties)
 
 ### Description

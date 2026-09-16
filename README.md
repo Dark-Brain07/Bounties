@@ -9,8 +9,10 @@ An on-chain marketplace for verifiable public claims, settled autonomously by **
 | Parameter | Value |
 |---|---|
 | **Contract Address** | `0xeBdE3fE16D05eE4DCA5096F4633FcEE92232877F` |
-| **Network** | GenLayer StudioNet (Chain ID: `61999`) |
 | **Explorer Link** | [View on GenLayer Studio](https://explorer-studio.genlayer.com/address/0xeBdE3fE16D05eE4DCA5096F4633FcEE92232877F) |
+| **Live Web DApp** | [bounties-xi.vercel.app](https://bounties-xi.vercel.app) |
+| **GitHub Repository** | [Dark-Brain07/Bounties](https://github.com/Dark-Brain07/Bounties) |
+| **Network** | GenLayer StudioNet (Chain ID: `61999`) |
 | **Deploy Tx Hash** | `0x89b729b6390384418338910fce65f94512464375b22751707400f14cfacb31b1` |
 | **Protocol Fee** | `250 bps` (2.5%) |
 | **AI Settlements** | 100% determined by GenLayer Equivalence Principle |
