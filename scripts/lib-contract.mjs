@@ -20,11 +20,22 @@ export async function write(client, functionName, args = [], value = 0n) {
     args,
     value,
   });
-  const receipt = await client.waitForTransactionReceipt({
-    hash,
-    retries: 180,
-    interval: 3000,
-  });
+
+  let receipt = null;
+  let attempts = 0;
+  while (!receipt && attempts < 5) {
+    try {
+      receipt = await client.waitForTransactionReceipt({
+        hash,
+        retries: 180,
+        interval: 3000,
+      });
+    } catch (e) {
+      attempts++;
+      if (attempts >= 5) throw e;
+      await new Promise((r) => setTimeout(r, 4000));
+    }
+  }
   return { hash, receipt };
 }
 
