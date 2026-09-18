@@ -94,6 +94,8 @@ export const ATTEMPT_STATUS_MAP: Record<number, { label: string; color: string }
   7: { label: "DISPUTED", color: "#EC4899" },
   8: { label: "CANCELLED", color: "#94A3B8" },
   9: { label: "PENDING_APPEAL", color: "#8B5CF6" },
+  10: { label: "APPEALED", color: "#A855F7" },
+  11: { label: "INSUFFICIENT_EVIDENCE_FINAL", color: "#EAB308" },
 };
 
 // RPC Read Call helper using genlayer-js

@@ -31,9 +31,9 @@ Bounties resolves this with an adversarial staking mechanism governed directly b
 3. **Live Web Fetch via GenVM:** Challengers submit public URLs. GenLayer validators independently fetch the raw web content (`gl.nondet.web.render`) inside non-deterministic execution, preventing evidence falsification.
 4. **LLM Equivalence Consensus:** Validators evaluate the live fetched text against frozen criteria using `gl.eq_principle.prompt_comparative`. Coarse payout bucketing (`_bucket_payout_bps`) guarantees exact consensus agreement on partial settlements.
 5. **Irreversible Zero-Then-Transfer Settlement:** The contract ledger is zeroed before calling the EVM compatibility bridge (`@gl.evm.contract_interface`), providing reentrancy and drain immunity.
-6. **Bounded Arbiter Trust Model:** Human arbiters provide advisory context only; unappealed or appealed disputes are finalized through a mandatory second round of GenLayer validator consensus (`_settle_via_second_consensus`).
+6. **Bounded Arbiter & Executable Dispute/Appeal Pipeline:** Human arbiters provide advisory context only; unappealed or appealed disputes are finalized through a mandatory second round of GenLayer validator consensus (`_settle_via_second_consensus`). The complete multi-tier lifecycle (dispute initiation, arbiter ruling, appeal bond deposit, and 2nd-round consensus settlement) is 100% executable directly within the submitted web application at `/disputes` and `/bounty/[id]`.
 
-Includes a Next.js 14 Web3 application, an automated StudioNet deployment suite, and an end-to-end integration test suite verifying creation, bond locking, criteria freeze, evidence submission, and disputes.
+Includes a Next.js 14 Web3 application, an automated StudioNet deployment suite, and an end-to-end integration test suite (`npm run test:contract`) running on cleanly declared package dependencies verifying creation, bond locking, criteria freeze, evidence submission, dispute filing, and arbiter resolution.
 
 ---
 

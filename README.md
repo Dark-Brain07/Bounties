@@ -69,24 +69,51 @@ Bounties/
 
 ## 🚀 Quickstart & Testing
 
-### 1. Verify Live Contract State
+### 1. Reproducible Dependency Setup
+All dependencies are cleanly declared in `package.json` without any local or machine-specific paths:
+```bash
+npm install
+```
+
+### 2. Run On-Chain Integration Test Suite
+Executes end-to-end integration tests directly against the deployed StudioNet contract across all 8 verification stages:
+```bash
+npm run test:contract
+```
+
+### 3. Verify Live Contract State via RPC
 ```bash
 cd scripts
 node -e "import('./lib-contract.mjs').then(async m => console.log('Bounties Counter:', await m.read('get_bounty_counter')))"
 ```
 
-### 2. Run On-Chain Integration Test Suite
-```bash
-cd scripts
-node test-suite.mjs
-```
-
-### 3. Run Frontend Web Application
+### 4. Run Frontend Web Application
 ```bash
 cd apps/web
+npm install
 npm run dev
 # Open http://localhost:3000
 ```
+
+---
+
+## ⚖️ End-to-End Dispute & Appeal Workflow
+
+The Bounties protocol features a multi-tiered dispute and appeal escalation process that is **100% executable directly from the submitted web application** (at `/disputes` and `/bounty/[id]`):
+
+1. **Initiate Dispute (`raise_dispute`)**:
+   - When a claim evaluation is finalized or settlement is contested, either the creator or the challenger can click **"Contest / Raise Dispute"** or **"Raise New Dispute"** on the UI.
+   - Calls `raise_dispute(bounty_id, attempt_index, reason)`. The attempt transitions to status `DISPUTED` (7).
+2. **Designated Arbiter Ruling (`resolve_dispute`)**:
+   - The bounty's assigned arbiter clicks **"Provide Arbiter Ruling"** to review the contested evidence and enter a structured verdict (`HONOR_CHALLENGER`, `REJECT_CHALLENGER`, or `SPLIT`), along with payout basis points and an advisory note.
+   - Calls `resolve_dispute(bounty_id, attempt_index, verdict, resolution_note, payout_bps)`. The attempt transitions to status `PENDING_APPEAL` (9) with a 24-hour contest window.
+3. **File Appeal with Staked Bond (`appeal_arbiter_resolution`)**:
+   - If either party disagrees with the arbiter's ruling, they click **"File Appeal (Stake Bond)"** within the appeal window.
+   - The appellant deposits the required appeal bond in GEN.
+   - Calls payable `appeal_arbiter_resolution(bounty_id, attempt_index, reason)`. The attempt transitions to status `APPEALED` (10).
+4. **Final Settlement**:
+   - **Scenario A (Uncontested)**: If no appeal is filed before the window expires, clicking **"Finalize Ruling"** calls `finalize_arbiter_resolution(bounty_id, attempt_index)`, executing the arbiter's ruling irreversibly.
+   - **Scenario B (Appealed — Second-Round Consensus)**: If appealed, clicking **"Run 2nd-Round Validator Consensus"** calls `resolve_appeal(bounty_id, attempt_index)`. GenLayer validators execute a second independent comparative evaluation (`gl.eq_principle.prompt_comparative`), determining the final payout and slashing or refunding the appeal bond.
 
 ---
 
